@@ -1,7 +1,35 @@
 import type { NextPage } from 'next';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { navs } from './config';
+import styles from './index.module.scss';
+import { Button } from 'antd';
 
 const Navbar: NextPage = () => {
-  return <div>Navbar</div>;
+  const { pathname } = useRouter();
+  
+  const handleGotoEditorPage = () => {
+    
+  }
+
+  return (
+    <div className={styles.navbar}>
+      <section className={styles.logoArea}>logo</section>
+      <section className={styles.linkArea}>
+        {navs?.map((nav) => (
+          <Link key={nav?.label} href={nav?.value}>
+            <a className={pathname === nav.value ? styles.active : ''}>
+              {nav?.label}
+            </a>
+          </Link>
+        ))}
+      </section>
+      <section className={styles.operationArea}>
+        <Button onClick={handleGotoEditorPage}>写文章</Button>
+        <Button type="primary">登录</Button>
+      </section>
+    </div>
+  );
 };
 
 export default Navbar;

@@ -1,3 +1,15 @@
-const navs = {};
-
-export default navs;
+export const navs = [
+    {
+      label: '首页',
+      value: '/',
+    },
+    {
+      label: '资讯',
+      value: '/info',
+    },
+    {
+      label: '标签',
+      value: '/tag',
+    },
+  ];
+  
