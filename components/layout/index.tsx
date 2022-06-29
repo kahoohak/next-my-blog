@@ -1,15 +1,27 @@
 import type { NextPage } from 'next';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { navs } from './config';
+import styles from './index.module.scss';
 
-const Layout: NextPage = ({ children }) => {
+const Navbar: NextPage = () => {
+  const { pathname } = useRouter();
+  console.log(pathname);
+
   return (
-    <div>
-      <Navbar />
-      <main>{children}</main>
-      <Footer />
+    <div className={styles.navbar}>
+      <section className={styles.logoArea}>logo</section>
+      <section className={styles.linkArea}>
+        {navs?.map((nav) => (
+          <Link key={nav?.label} href={nav?.value}>
+            <a className={pathname === nav.value ? styles.active : ''}>
+              {nav?.label}
+            </a>
+          </Link>
+        ))}
+      </section>
     </div>
   );
 };
 
-export default Layout;
+export default Navbar;
