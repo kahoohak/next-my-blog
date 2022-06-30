@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from 'react';
+import CountDown from '@/components/CountDown';
 import styles from './index.module.scss';
 
 interface Iprops {
@@ -8,6 +9,7 @@ interface Iprops {
 
 const Login = (props: Iprops) => {
   const { isShow = false } = props;
+  const [isShowCountDown, setIsShowCountDown] = useState(false);
   const [form, setForm] = useState({
     phone: '',
     verify: '',
@@ -23,7 +25,13 @@ const Login = (props: Iprops) => {
     });
   };
 
-  const handleGetVerifyCode = () => {};
+  const handleGetVerifyCode = () => {
+    setIsShowCountDown(true);
+  };
+
+  const handleCountDownEnd = () => {
+    setIsShowCountDown(false);
+  };
 
   const handleLogin = () => {};
 
@@ -54,7 +62,11 @@ const Login = (props: Iprops) => {
             onChange={handleFormChange}
           />
           <span className={styles.verifyCode} onClick={handleGetVerifyCode}>
-            获取验证码
+            {isShowCountDown ? (
+              <CountDown time={10} onEnd={handleCountDownEnd} />
+            ) : (
+              '获取验证码'
+            )}
           </span>
         </div>
         <div className={styles.loginBtn} onClick={handleLogin}>
