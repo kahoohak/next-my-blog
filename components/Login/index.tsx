@@ -1,6 +1,8 @@
 import { ChangeEvent, useState } from 'react';
 import CountDown from '@/components/CountDown';
 import styles from './index.module.scss';
+import { message } from 'antd';
+import request from '@/service/fetch';
 
 interface Iprops {
   isShow: boolean;
@@ -26,7 +28,22 @@ const Login = (props: Iprops) => {
   };
 
   const handleGetVerifyCode = () => {
-    setIsShowCountDown(true);
+    if (!form?.phone) {
+      message.warning('请输入手机号');
+      return;
+    }
+    request
+      .post('/api/user/sendVerifyCode', {
+        to: form?.phone,
+        templateId: 1,
+      })
+      .then((res: any) => {
+        if (res?.code === 0) {
+          setIsShowCountDown(true);
+        } else {
+          message.error(res?.msg || '未知错误');
+        }
+      });
   };
 
   const handleCountDownEnd = () => {

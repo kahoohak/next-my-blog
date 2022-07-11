@@ -1,11 +1,33 @@
+import { useEffect, useState } from 'react';
+import styles from './index.module.scss';
+
 interface Iprops {
   time: number;
   onEnd: Function;
 }
 
 const CountDown = (props: Iprops) => {
-  const { time } = props;
-  return <div>{time}</div>;
+  const { time, onEnd } = props;
+  const [count, setCount] = useState(time || 60);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setCount((count) => {
+        if (count === 0) {
+          clearInterval(id);
+          onEnd && onEnd();
+          return count;
+        }
+        return count - 1;
+      });
+    }, 1000);
+
+    return () => {
+      clearInterval(id);
+    };
+  }, [time, onEnd]);
+
+  return <div className={styles.countDown}>{count}</div>;
 };
 
 export default CountDown;
